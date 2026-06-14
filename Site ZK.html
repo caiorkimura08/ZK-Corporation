@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZK Corporation | Assessoria de Performance</title>
+    
+    <!-- Fontes do Google: Inter e Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Biblioteca de Animações AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* PALETA PREMIUM E CLEAN */
+        :root {
+            --bg-dark: #020000;
+            --bg-gradient: radial-gradient(circle at top right, #1a0002 0%, #050000 40%, #000000 100%);
+            --bg-glass: rgba(15, 15, 15, 0.4);
+            --primary-red: #D90429;
+            --primary-dark-red: #8D0801;
+            --success-green: #10B981;
+            --text-light: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-glass: rgba(255, 255, 255, 0.04);
+            --border-hover: rgba(217, 4, 41, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-glass);
+            transition: all 0.4s ease;
+        }
+
+        .logo-img {
+            height: 55px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- BOTÕES ELEGANTES --- */
+        .btn-red {
+            background: var(--primary-red);
+            color: #fff;
+            padding: 14px 34px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(217, 4, 41, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-red::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-red:hover::after {
+            transform: translateX(100%);
+        }
+
+        .btn-red:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(217, 4, 41, 0.4);
+            background: #E51035;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 140px 5% 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 950px;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--primary-red);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin: 0 auto 50px;
+            font-weight: 400;
+            max-width: 800px;
+        }
+
+        /* --- ESTRUTURA GERAL CLEAN --- */
+        .section-padding {
+            padding: 120px 5%;
+            position: relative;
+        }
+
+        .bg-glass-section {
+            background: linear-gradient(180deg, rgba(15,15,15,0) 0%, rgba(15,15,15,0.4) 20%, rgba(15,15,15,0.4) 80%, rgba(15,15,15,0) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-tag {
+            color: var(--primary-red);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        /* --- GRIDS & CARDS --- */
+        .problem-grid, .about-grid, .services-grid, .stats-grid, .testimonials-grid {
+            display: grid;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .about-grid { grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .services-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+        .card-clean {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 45px 35px;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-clean:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-8px);
+            background: rgba(25, 25, 25, 0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* --- ÍCONES --- */
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(217, 4, 41, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-red);
+            margin-bottom: 25px;
+            transition: all 0.4s ease;
+        }
+
+        .card-clean:hover .icon-box {
+            background: var(--primary-red);
+            color: #fff;
+            transform: rotate(-5deg) scale(1.1);
+        }
+
+        /* --- SOBRE NÓS FOTO --- */
+        .about-image-box {
+            width: 100%;
+            height: 550px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 20px 20px 0px rgba(217, 4, 41, 0.08);
+            transition: all 0.5s ease;
+        }
+
+        .about-image-box:hover {
+            box-shadow: 15px 15px 0px rgba(217, 4, 41, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .about-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            opacity: 0.8;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .about-image-box:hover img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        /* --- SERVIÇOS ADICIONAIS --- */
+        .add-services-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .add-service-item {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 220px;
+            flex: 0 0 auto;
+        }
+
+        .add-service-item i {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .add-service-item h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .add-service-item:hover {
+            border-color: var(--primary-red);
+            background: rgba(217, 4, 41, 0.05);
+            transform: translateY(-5px);
+        }
+
+        /* --- CICLO DE PROGRESSO --- */
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .time-box {
+            background: var(--bg-glass);
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-glass);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-box::before {
+            content: 'Clique para concluir';
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .time-box:hover::before { opacity: 1; }
+
+        .time-box:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .time-box h3 {
+            color: var(--primary-red);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .time-box.checked {
+            border-color: var(--success-green);
+            background: rgba(16, 185, 129, 0.05);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+        }
+
+        .time-box.checked h3 { color: var(--success-green); }
+        .time-box.checked::before { display: none; }
+
+        .check-mark-icon {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            color: var(--success-green);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .time-box.checked .check-mark-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- RESULTADOS REAIS --- */
+        .stat-box {
+            text-align: left;
+            padding: 40px 30px;
+            background: var(--bg-glass);
+            border-radius: 16px;
+            border: 1px solid var(--border-glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--primary-red);
+        }
+
+        /* Ajuste do número para não ser cortado */
+        .stat-number {
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; 
+        }
+
+        .stat-number .suffix {
+            color: var(--primary-red);
+            font-size: clamp(1.5rem, 2vw, 2rem);
+            margin-left: 4px;
+            white-space: nowrap;
+        }
+
+        .stat-number .prefix {
+            color: var(--text-muted);
+            font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+            margin-right: 5px;
+        }
+
+        /* --- FAQ --- */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        
+        details {
+            background: var(--bg-glass);
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            transition: all 0.3s ease;
+        }
+
+        details[open] { border-color: var(--primary-red); }
+
+        summary {
+            padding: 22px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+        
+        summary::after {
+            content: '\f067'; /* FontAwesome Plus */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--primary-red);
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            content: '\f068'; /* FontAwesome Minus */
+            transform: rotate(180deg);
+        }
+
+        .faq-content {
+            padding: 0 30px 25px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.8rem; }
+            .section-header h2 { font-size: 2.2rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .timeline { grid-template-columns: 1fr; }
+            .add-service-item { width: 100%; max-width: 300px; }
+        }
+
+        /* WHATSAPP FLOAT */
+        .fab-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 2rem;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-whatsapp:hover { transform: scale(1.15) rotate(-5deg); }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header id="header">
+        <a href="#">
+            <img src="logo-zk.png" alt="ZK Corporation Logo" class="logo-img">
+        </a>
+        <a href="https://calendar.app.google/9dhZPjKzFFwRXMDbA" class="btn-red" target="_blank">Agendar Reunião</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <span class="section-tag" style="margin-bottom: 20px;">Assessoria de Performance Exclusiva</span>
+            <h1>Crescer junto é o único caminho para <span>resultados reais</span></h1>
+            <p>Deixamos o achismo de lado. Seu crescimento vem em primeiro lugar, impulsionado por estratégias validadas, engenharia de dados e execução de alto padrão.</p>
+            <a href="https://calendar.app.google/9dhZPjKzFFwRXMDbA" class="btn-red" target="_blank" style="padding: 18px 45px; font-size: 1.1rem;">Quero Escalar Minha Empresa</a>
+        </div>
+    </section>
+
+    <!-- O CENÁRIO ATUAL / OPORTUNIDADES -->
+    <section class="section-padding bg-glass-section">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">O Cenário Atual</span>
+            <h2>Oportunidades que você ainda não está aproveitando</h2>
+        </div>
+
+        <div class="problem-grid">
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-box"><i class="fa-solid fa-rocket"></i></div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 10px;">Potencial de Escala Inexplorado</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Seu negócio tem produto bom e base de clientes. Falta um sistema de marketing integrado para acelerar o crescimento de forma previsível.</p>
+            </div>
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box"><i class="fa-solid fa-users-viewfinder"></i></div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 10px;">Audiência Ainda Não Atingida</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Existe um público qualificado que ainda não conhece seu negócio. Com tráfego pago e conteúdo estratégico, você os impacta no momento certo.</p>
+            </div>
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box"><i class="fa-solid fa-chess-knight"></i></div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 10px;">Conteúdo Sem Estratégia</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Você produz conteúdo mas sem planejamento, roteiro e distribuição. Conteúdo sem estratégia não vende – conteúdo com sistema escala.</p>
+            </div>
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 10px;">Investimento Sem Retorno Claro</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Marketing sem dados é gasto. Marketing com estratégia é investimento. A ZK Corporation entrega resultado mensurável, não promessa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE NÓS -->
+    <section class="section-padding">
+        <div class="about-grid">
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <!-- FOTO DA EMPRESA/SÓCIOS -->
+                <div class="about-image-box">
+                    <img src="foto-zappala-kimura.jpg" alt="Zappala e Kimura">
+                </div>
+            </div>
+            <div data-aos="fade-left" data-aos-duration="1000">
+                <div class="section-header" style="text-align: left; margin-bottom: 25px;">
+                    <span class="section-tag">Quem Somos</span>
+                    <h2>A união de Zappala & Kimura</h2>
+                </div>
+                <p style="font-size: 1.15rem; font-weight: 500; color: var(--text-light); margin-bottom: 20px;">
+                    A ZK Corporation nasceu com um propósito intransigível: transformar marketing em crescimento real e documentado.
+                </p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    Hoje atuamos exclusivamente como uma Assessoria de Performance, desenvolvendo estratégias orientadas rigorosamente por dados para gerar resultados consistentes e sustentáveis a longo prazo.
+                </p>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">
+                    Acreditamos que investimento só faz sentido quando é feito com clareza, propósito e análise inteligente. Mais do que executar ações, trabalhamos lado a lado na trincheira com nossos parceiros para evoluir, otimizar e crescer Juntos.
+                </p>
+                <a href="https://calendar.app.google/9dhZPjKzFFwRXMDbA" class="btn-red" target="_blank">Falar com a Equipe</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOSSOS SERVIÇOS PADRÃO -->
+    <section class="section-padding bg-glass-section">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Pacote Principal</span>
+            <h2>Ecossistema 360º</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0;">Cuidamos de toda a operação. Desde a concepção da marca até a aquisição massiva de clientes.</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-box"><i class="fa-solid fa-bullseye"></i></div>
+                <h3 style="font-size: 1.4rem; margin-bottom: 15px;">Gestão de Tráfego</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Distribuição de orçamentos e otimização tática para conversão.</p>
+                <div style="margin-top: 20px; color: var(--primary-red); font-size: 0.85rem; font-weight: 600;">Meta Ads • Google Ads • TikTok Ads</div>
+            </div>
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box"><i class="fa-solid fa-hashtag"></i></div>
+                <h3 style="font-size: 1.4rem; margin-bottom: 15px;">Social Mídia</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Construção de audiência, roteiros magnéticos e posicionamento.</p>
+                <div style="margin-top: 20px; color: var(--primary-red); font-size: 0.85rem; font-weight: 600;">Branding • Copy</div>
+            </div>
+            <div class="card-clean" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box"><i class="fa-solid fa-code"></i></div>
+                <h3 style="font-size: 1.4rem; margin-bottom: 15px;">Dados e Tracking</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">O núcleo da inteligência. Rastreamento exato para baratear campanhas.</p>
+                <div style="margin-top: 20px; color: var(--primary-red); font-size: 0.85rem; font-weight: 600;">Pixel • Públicos • API's</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVIÇOS ADICIONAIS DESTACADOS E CENTRALIZADOS -->
+    <section class="section-padding">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Expansão de Estrutura</span>
+            <h2>Serviços Adicionais</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0;">Implementações opcionais cobradas à parte para otimizar ainda mais as conversões do seu negócio.</p>
+        </div>
+
+        <div class="add-services-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="add-service-item">
+                <i class="fa-solid fa-laptop-code"></i>
+                <h4>Criação de Sites</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-robot"></i>
+                <h4>Assistentes Virtuais</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-book-open"></i>
+                <h4>Catálogos Digitais</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-id-card"></i>
+                <h4>Cartões de Visita</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-scroll"></i>
+                <h4>Panfletos</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-pen-nib"></i>
+                <h4>Logos Inovadoras</h4>
+            </div>
+            <div class="add-service-item">
+                <i class="fa-solid fa-video"></i>
+                <h4>Vídeos com IA</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- CICLO DE PROGRESSO INTERATIVO -->
+    <section class="section-padding bg-glass-section">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Metodologia Validadada</span>
+            <h2>O Ciclo de Progresso</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0;">Clique nas etapas abaixo para marcar a evolução do processo de escala.</p>
+        </div>
+
+        <div class="timeline">
+            <!-- As caixas possuem onclick para adicionar a classe "checked" -->
+            <div class="time-box" data-aos="zoom-in" data-aos-delay="100" onclick="this.classList.toggle('checked')">
+                <i class="fa-solid fa-circle-check check-mark-icon"></i>
+                <h3>MÊS 1</h3>
+                <h4 style="margin-bottom: 12px; color: var(--text-light); font-size: 1.1rem;">Engajamento e Alcance</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Estruturação completa, reestruturação estética do perfil e primeiros testes A/B em campanhas.</p>
+            </div>
+            
+            <div class="time-box" data-aos="zoom-in" data-aos-delay="200" onclick="this.classList.toggle('checked')">
+                <i class="fa-solid fa-circle-check check-mark-icon"></i>
+                <h3>MÊS 2</h3>
+                <h4 style="margin-bottom: 12px; color: var(--text-light); font-size: 1.1rem;">Seguidores e Leads</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Otimização pautada em dados, escala agressiva dos melhores anúncios e aquecimento de públicos.</p>
+            </div>
+
+            <div class="time-box" data-aos="zoom-in" data-aos-delay="300" onclick="this.classList.toggle('checked')">
+                <i class="fa-solid fa-circle-check check-mark-icon"></i>
+                <h3>MÊS 3</h3>
+                <h4 style="margin-bottom: 12px; color: var(--text-light); font-size: 1.1rem;">Vendas e Conversões</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Funil 100% validado rodando sozinho, remarketing ativo e aumento imediato do LTV do cliente.</p>
+            </div>
+
+            <div class="time-box" data-aos="zoom-in" data-aos-delay="400" onclick="this.classList.toggle('checked')">
+                <i class="fa-solid fa-circle-check check-mark-icon"></i>
+                <h3>MÊS 4+</h3>
+                <h4 style="margin-bottom: 12px; color: var(--text-light); font-size: 1.1rem;">Autoridade e Faturamento</h4>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Operação com sistema escalável, crescimento comercial previsível e posição dominante no nicho.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESULTADOS REAIS (CONTADORES ANIMADOS E ESTÁTICOS) -->
+    <section class="section-padding">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Prova Social em Tempo Real</span>
+            <h2>Resultados Gerados</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 15px auto 0;">Nossos números refletem a otimização diária das campanhas.</p>
+        </div>
+
+        <div class="stats-grid" id="stats-section">
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number">
+                    <span class="counter-value" data-target="43" data-step="1" data-speed="50">0</span>
+                    <span class="suffix">X</span>
+                </div>
+                <h3 class="stat-title">ROAS Máximo</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Multiplicação de retorno já alcançada no setor de cosméticos.</p>
+            </div>
+            
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number">
+                    <span class="prefix">R$</span>
+                    <span class="counter-value" data-target="25" data-step="1" data-speed="50">0</span>
+                    <span class="suffix">K+</span>
+                </div>
+                <h3 class="stat-title">Retorno Gerado</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Nosso maior retorno gerado a partir de apenas R$600 de investimento inicial.</p>
+            </div>
+            
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number">
+                    <!-- Número de visualizações (154 mil) -->
+                    <span class="counter-value continuous" data-target="154320" data-step="3000" data-speed="30" data-increment="3">0</span>
+                    <span class="suffix">+</span>
+                </div>
+                <h3 class="stat-title">Visualizações Mês</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Acelerando o alcance de perfis e gerando impressões massivas.</p>
+            </div>
+            
+            <div class="stat-box" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-number">
+                    <!-- Número de pessoas alcançadas -->
+                    <span class="counter-value continuous" data-target="500000" data-step="10000" data-speed="30" data-increment="7">0</span>
+                    <span class="suffix">+</span>
+                </div>
+                <h3 class="stat-title">Pessoas Alcançadas</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Volume de base local e nacional exposta às nossas marcas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-padding bg-glass-section">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-tag">Transparência Total</span>
+            <h2>Perguntas Frequentes</h2>
+        </div>
+
+        <div class="faq-container" data-aos="fade-up">
+            <details>
+                <summary>Qual é o valor da assessoria?</summary>
+                <div class="faq-content">Embora tenhamos pacotes modulares, nosso valor final é 100% personalizado. Estudamos o seu cenário atual, o tamanho da sua operation e o seu potencial de escala durante a Reunião de Onboarding para gerar uma proposta justa e lucrativa.</div>
+            </details>
+            <details>
+                <summary>Vocês atendem clientes fora de São Paulo?</summary>
+                <div class="faq-content">Atendemos negócios de todo o Brasil. Porém, para clientes fora de SP, atuamos de forma exclusiva com a Gestão de Tráfego Pago e a orientação de criativos. A produção de Social Mídia com nossa equipe de filmagem presencial atende somente a região de São Paulo.</div>
+            </details>
+            <details>
+                <summary>Como funcionam as filmagens presenciais (SP)?</summary>
+                <div class="faq-content">Para os projetos completos no estado de São Paulo, agendamos de 2 a 3 sessões mensais presenciais (com duração média de 3 a 4 horas). Direcionamos toda a captação baseada em roteiros para entregar de 20 a 30 vídeos focados em alta conversão.</div>
+            </details>
+            <details>
+                <summary>Como inicio o projeto?</summary>
+                <div class="faq-content">Agende uma reunião nos botões da página. Após fecharmos parceria, o Onboarding (assinatura e acessos) leva de 1 a 2 dias, e o mapeamento de funil inicial leva de 1 a 3 dias. A partir daí, a máquina de vendas entra em operação contínua.</div>
+            </details>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section style="padding: 120px 5%; background: linear-gradient(135deg, var(--bg-dark) 0%, #1a0002 100%); text-align: center; border-top: 1px solid var(--border-glass);">
+        <div data-aos="zoom-in">
+            <h2 style="font-size: 3.5rem; margin-bottom: 20px;">Vamos Escalar <span style="color: var(--primary-red);">Juntos?</span></h2>
+            <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">O mercado não espera quem fica planejando para sempre. Tome a decisão de dominar a sua região agora.</p>
+            <a href="https://calendar.app.google/9dhZPjKzFFwRXMDbA" class="btn-red" target="_blank" style="padding: 18px 50px; font-size: 1.15rem;">Agendar Reunião Gratuita</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="text-align: center; padding: 50px 5%; border-top: 1px solid var(--border-glass);">
+        <div style="display: flex; justify-content: center; margin-bottom: 25px;">
+            <img src="logo-zk.png" alt="ZK Corporation Logo" style="height: 40px; opacity: 0.6; transition: opacity 0.3s;">
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 5px;">Crescer junto é o único caminho para resultados reais.</p>
+        <p style="color: var(--primary-dark-red); font-size: 0.8rem;">&copy; 2026 ZK Corporation. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- BOTÃO WHATSAPP -->
+    <a href="https://wa.me/5511910807631" class="fab-whatsapp" target="_blank" aria-label="Falar no WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inicializa as animações de rolagem
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 80,
+        });
+
+        // Efeito de sombra no Header ao rolar a página
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(2, 0, 0, 0.95)';
+                header.style.borderBottom = '1px solid rgba(217, 4, 41, 0.2)';
+            } else {
+                header.style.background = 'rgba(2, 0, 0, 0.8)';
+                header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.04)';
+            }
+        });
+
+        // Lógica Sofisticada de Contadores em Tempo Real
+        const counters = document.querySelectorAll('.counter-value');
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const step = +counter.getAttribute('data-step');
+                    const speed = +counter.getAttribute('data-speed');
+                    let current = 0;
+
+                    const updateCount = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.innerText = current.toLocaleString('pt-BR');
+                            setTimeout(updateCount, speed);
+                        } else {
+                            counter.innerText = target.toLocaleString('pt-BR');
+                            
+                            // Ativa o contador contínuo simulando crescimento ao vivo
+                            if (counter.classList.contains('continuous')) {
+                                const increment = +counter.getAttribute('data-increment');
+                                setInterval(() => {
+                                    let presentValue = parseInt(counter.innerText.replace(/\./g, ''));
+                                    // Adiciona um valor aleatório baseado no incremento
+                                    presentValue += Math.floor(Math.random() * increment) + 1;
+                                    counter.innerText = presentValue.toLocaleString('pt-BR');
+                                }, 3500); // Aumenta a cada 3.5 segundos
+                            }
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(counter); // Roda animação principal só uma vez
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    </script>
+</body>
+</html>
